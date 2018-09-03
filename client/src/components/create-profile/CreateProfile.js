@@ -1,28 +1,31 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import TextFieldGroup from "../common/TextFieldGroup";
-import TextAreaField from "../common/TextAreaField";
-import InputGroup from "../common/InputGroup";
-import SelectListGroup from "../common/SelectListGroup";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import TextFieldGroup from '../common/TextFieldGroup';
+import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import InputGroup from '../common/InputGroup';
+import SelectListGroup from '../common/SelectListGroup';
+import { createProfile } from '../../actions/profileActions';
 
 class CreateProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       displaySocialInputs: false,
-      handle: "",
-      company: "",
-      website: "",
-      location: "",
-      status: "",
-      skills: "",
-      githubusername: "",
-      bio: "",
-      facebook: "",
-      linkedin: "",
-      youtube: "",
-      instagram: "",
+      handle: '',
+      company: '',
+      website: '',
+      location: '',
+      status: '',
+      skills: '',
+      githubusername: '',
+      bio: '',
+      twitter: '',
+      facebook: '',
+      linkedin: '',
+      youtube: '',
+      instagram: '',
       errors: {}
     };
 
@@ -30,10 +33,32 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit(e) {
-    e.preventdefault();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
 
-    console.log("submit");
+  onSubmit(e) {
+    e.preventDefault();
+
+    const profileData = {
+      handle: this.state.handle,
+      company: this.state.company,
+      website: this.state.website,
+      location: this.state.location,
+      status: this.state.status,
+      skills: this.state.skills,
+      githubusername: this.state.githubusername,
+      bio: this.state.bio,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram
+    };
+
+    this.props.createProfile(profileData, this.props.history);
   }
 
   onChange(e) {
@@ -44,6 +69,7 @@ class CreateProfile extends Component {
     const { errors, displaySocialInputs } = this.state;
 
     let socialInputs;
+
     if (displaySocialInputs) {
       socialInputs = (
         <div>
@@ -64,6 +90,7 @@ class CreateProfile extends Component {
             onChange={this.onChange}
             error={errors.facebook}
           />
+
           <InputGroup
             placeholder="Linkedin Profile URL"
             name="linkedin"
@@ -72,6 +99,16 @@ class CreateProfile extends Component {
             onChange={this.onChange}
             error={errors.linkedin}
           />
+
+          <InputGroup
+            placeholder="YouTube Channel URL"
+            name="youtube"
+            icon="fab fa-youtube"
+            value={this.state.youtube}
+            onChange={this.onChange}
+            error={errors.youtube}
+          />
+
           <InputGroup
             placeholder="Instagram Page URL"
             name="instagram"
@@ -80,29 +117,23 @@ class CreateProfile extends Component {
             onChange={this.onChange}
             error={errors.instagram}
           />
-          <InputGroup
-            placeholder="Youtube Channel URL"
-            name="youtube"
-            icon="fab fa-youtube"
-            value={this.state.youtube}
-            onChange={this.onChange}
-            error={errors.youtube}
-          />
         </div>
       );
     }
 
-    //Select options for status
+    // Select options for status
     const options = [
-      { label: "* Select Professional Status", value: 0 },
-      { label: "Developer", value: "Developer" },
-      { label: "Junior Developer", value: "Junior Developer" },
-      { label: "Senior Developer", value: "Senior Developer" },
-      { label: "Manager", value: "Manager" },
-      { label: "Student or Learning", value: "Student or Learning" },
-      { label: "Intern", value: "Intern" },
-      { label: "Other", value: "Other" }
+      { label: '* Select Professional Status', value: 0 },
+      { label: 'Developer', value: 'Developer' },
+      { label: 'Junior Developer', value: 'Junior Developer' },
+      { label: 'Senior Developer', value: 'Senior Developer' },
+      { label: 'Manager', value: 'Manager' },
+      { label: 'Student or Learning', value: 'Student or Learning' },
+      { label: 'Instructor or Teacher', value: 'Instructor or Teacher' },
+      { label: 'Intern', value: 'Intern' },
+      { label: 'Other', value: 'Other' }
     ];
+
     return (
       <div className="create-profile">
         <div className="container">
@@ -112,7 +143,7 @@ class CreateProfile extends Component {
               <p className="lead text-center">
                 Let's get some information to make your profile stand out
               </p>
-              <small className="d-block pb-3">* = required fileds</small>
+              <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   placeholder="* Profile Handle"
@@ -122,53 +153,48 @@ class CreateProfile extends Component {
                   error={errors.handle}
                   info="A unique handle for your profile URL. Your full name, company name, nickname"
                 />
-
                 <SelectListGroup
-                  placeholder="status"
+                  placeholder="Status"
                   name="status"
                   value={this.state.status}
                   onChange={this.onChange}
-                  error={errors.status}
                   options={options}
-                  info="Give us an idea of where you at in your career"
+                  error={errors.status}
+                  info="Give us an idea of where you are at in your career"
                 />
-
                 <TextFieldGroup
                   placeholder="Company"
-                  name="handle"
+                  name="company"
                   value={this.state.company}
                   onChange={this.onChange}
                   error={errors.company}
-                  info="Could be your own company or one you work for "
+                  info="Could be your own company or one you work for"
                 />
-
                 <TextFieldGroup
                   placeholder="Website"
                   name="website"
                   value={this.state.website}
                   onChange={this.onChange}
                   error={errors.website}
-                  info="Could be your own website or company one"
+                  info="Could be your own website or a company one"
                 />
-
                 <TextFieldGroup
                   placeholder="Location"
                   name="location"
-                  value={this.state.website}
+                  value={this.state.location}
                   onChange={this.onChange}
                   error={errors.location}
                   info="City or city & state suggested (eg. Boston, MA)"
                 />
-
                 <TextFieldGroup
-                  placeholder="Skills"
+                  placeholder="* Skills"
                   name="skills"
                   value={this.state.skills}
                   onChange={this.onChange}
                   error={errors.skills}
-                  info="Please use comma separated values (eg. HTML,CSS,Javascipt,PHP"
+                  info="Please use comma separated values (eg.
+                    HTML,CSS,JavaScript,PHP"
                 />
-
                 <TextFieldGroup
                   placeholder="Github Username"
                   name="githubusername"
@@ -177,9 +203,8 @@ class CreateProfile extends Component {
                   error={errors.githubusername}
                   info="If you want your latest repos and a Github link, include your username"
                 />
-
-                <TextAreaField
-                  placeholder="Short bio"
+                <TextAreaFieldGroup
+                  placeholder="Short Bio"
                   name="bio"
                   value={this.state.bio}
                   onChange={this.onChange}
@@ -226,4 +251,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(mapStateToProps, { createProfile })(
+  withRouter(CreateProfile)
+);
