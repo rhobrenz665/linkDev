@@ -26,7 +26,7 @@ const SelectListGroup = ({ name, value, error, info, onChange, options }) => {
   );
 };
 
-TextFieldGroup.propTypes = {
+SelectListGroup.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   info: PropTypes.string,
