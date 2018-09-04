@@ -26,6 +26,7 @@ class AddExperience extends Component {
     this.onCheck = this.onCheck.bind(this);
   }
 
+  //recieve errors
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -162,6 +163,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
   { addExperience }
 )(withRouter(AddExperience));
