@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-// import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
+import { setAlert } from '../../actions/alert';
 import PropTypes from 'prop-types';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
@@ -67,6 +67,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             name="password"
             value={password}
             onChange={onChange}
+            autoComplete="on"
           />
         </div>
         <div className="form-group">
@@ -76,6 +77,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             name="password2"
             value={password2}
             onChange={onChange}
+            autoComplete="on"
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Register" />
@@ -88,13 +90,13 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 };
 
 Register.propTypes = {
-  // setAlert: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
-  // isAuthenticated: PropTypes.bool,
+  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  // isAuthenticated: state.auth.isAuthenticated,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { register })(Register);
+export default connect(mapStateToProps, { register, setAlert })(Register);

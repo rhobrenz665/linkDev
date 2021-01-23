@@ -1,0 +1,7 @@
+{
+  "env": {
+    "mongoURI": "mongodb+srv://rhobrenz17:rhobrenz@cluster0.mkjgh.mongodb.net/devcon?retryWrites=true&w=majority",
+    "secretKey": "supersecret_dont_share_this_secret",
+    "jwtExpiresInHour": "1h"
+  }
+}

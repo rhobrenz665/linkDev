@@ -23,7 +23,7 @@ const Landing = props => {
         contentClass="register-modal-content"
         footerClass="register-modal-content"
         footer={
-          <button class="close-button topright" onClick={closeModal}>
+          <button className="close-button topright" onClick={closeModal}>
             x
           </button>
         }
@@ -41,7 +41,12 @@ const Landing = props => {
               from other developers
             </p>
             <div className="buttons">
-              <Button onClick={openModal} className="btn" modifier="primary">
+              <Button
+                // onClick={openModal}
+                className="btn"
+                modifier="primary"
+                to="/register"
+              >
                 Sign Up
               </Button>
               <Button to="/login" className="btn" modifier="light">

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth');
 
 const usersController = require('../../controllers/users-controllers');
 
@@ -21,6 +22,6 @@ router.post('/login', usersController.login);
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Private
-router.get('/current', usersController.getCurrent);
+router.get('/', auth, usersController.getCurrent);
 
 module.exports = router;

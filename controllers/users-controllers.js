@@ -9,9 +9,7 @@ const jwt = require('jsonwebtoken');
 const HttpError = require('../models/http-error');
 const User = require('../models/User');
 
-const config = require('config');
-const secretKey = config.get('secretKey');
-const jwtExpiresInHour = config.get('jwtExpiresInHour');
+const { jwtExpiresInHour, secretKey } = process.env;
 
 const register = async (req, res, next) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -60,11 +58,6 @@ const register = async (req, res, next) => {
   });
 
   let image = '';
-  // if (req.path && req.file.path !== undefined) {
-  //   image = req.file.path;
-  // } else {
-  //   image = '';
-  // }
 
   const createdUser = new User({
     name,
@@ -85,12 +78,15 @@ const register = async (req, res, next) => {
   }
 
   let token;
+
+  const payload = {
+    user: {
+      id: createdUser.id,
+    },
+  };
+
   try {
-    token = jwt.sign(
-      { userId: createdUser.id, email: createdUser.email },
-      secretKey,
-      { expiresIn: jwtExpiresInHour }
-    );
+    token = jwt.sign(payload, secretKey, { expiresIn: jwtExpiresInHour });
   } catch (err) {
     const error = new HttpError(
       'Signing up failed, please try again later.',
@@ -99,9 +95,7 @@ const register = async (req, res, next) => {
     return next(error);
   }
 
-  res
-    .status(201)
-    .json({ userId: createdUser.id, email: createdUser.email, token: token });
+  res.status(201).json({ token });
 };
 
 const login = async (req, res, next) => {
@@ -154,12 +148,15 @@ const login = async (req, res, next) => {
   }
 
   let token;
+
+  const payload = {
+    user: {
+      id: existingUser._id,
+    },
+  };
+
   try {
-    token = jwt.sign(
-      { userId: existingUser.id, email: existingUser.email },
-      secretKey,
-      { expiresIn: jwtExpiresInHour }
-    );
+    token = jwt.sign(payload, secretKey, { expiresIn: jwtExpiresInHour });
   } catch (err) {
     const error = new HttpError(
       'Logging in failed, please try again later.',
@@ -168,14 +165,24 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({
-    userId: existingUser.id,
-    email: existingUser.email,
-    token: token,
-  });
+  res.json({ token });
 };
 
-const getCurrent = async (req, res, next) => {};
+const getCurrent = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    const userData = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    };
+    res.json(userData);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+};
 
 exports.register = register;
 exports.login = login;
