@@ -1,12 +1,10 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { logout } from '../../../actions/auth';
 
-const Navbar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const logout = () => {
-    console.log(124124);
-  };
+const Navbar = ({ auth: { isAuthenticated }, logout }) => {
   const authLinks = (
     <ul>
       <li>
@@ -65,13 +63,13 @@ const Navbar = () => {
   );
 };
 
-// Navbar.propTypes = {
-//   logout: PropTypes.func.isRequired,
-//   auth: PropTypes.object.isRequired,
-// };
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
 
-// // const mapStateToProps = state => ({
-// //   auth: state.auth,
-// // });
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
 
-export default Navbar;
+export default connect(mapStateToProps, { logout })(Navbar);
