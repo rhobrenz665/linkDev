@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken');
 const secretKey = process.env.secretKey;
 
 module.exports = function (req, res, next) {
+  if (req.method === 'OPTIONS') {
+    return next();
+  }
   // Get token from header
   const token = req.header('x-auth-token');
   // Check if not token

@@ -13,7 +13,7 @@ const User = require('../models/User');
 const getUserCurrentProfile = async (req, res, next) => {
   try {
     const profile = await Profile.findOne({
-      user: req.userData.userId,
+      user: req.user.id,
     }).populate('user', ['name', 'avatar']);
 
     if (!profile) {
@@ -54,7 +54,7 @@ const createUserProfile = async (req, res, next) => {
 
   // Get Fields
   const profileFields = {};
-  profileFields.user = req.userData.userId;
+  profileFields.user = req.user.id;
   if (handle) profileFields.handle = handle;
   if (company) profileFields.company = company;
   if (website) profileFields.website = website;
@@ -78,14 +78,15 @@ const createUserProfile = async (req, res, next) => {
   try {
     // Using upsert option (creates new doc if no match is found):
     let profile = await Profile.findOneAndUpdate(
-      { user: req.userData.userId },
+      { user: req.user.id },
       { $set: profileFields },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error');
+    const error = new HttpError('Server Error', 500);
+    return next(error);
   }
 };
 
