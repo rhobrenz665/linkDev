@@ -9,7 +9,7 @@ const Education = ({ education, deleteEducation }) => {
     <tr key={edu._id}>
       <td>{edu.school}</td>
       <td className="hide-sm">{edu.degree}</td>
-      <td>
+      <td className="hide-sm">
         {formatDate(edu.from)} - {edu.to ? formatDate(edu.to) : 'Now'}
       </td>
       <td>

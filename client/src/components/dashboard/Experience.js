@@ -9,9 +9,10 @@ const Experience = ({ experience, deleteExperience }) => {
     <tr key={exp._id}>
       <td>{exp.company}</td>
       <td className="hide-sm">{exp.title}</td>
-      <td>
+      <td className="hide-sm">
         {formatDate(exp.from)} - {exp.to ? formatDate(exp.to) : 'Now'}
       </td>
+      <td className="hide-sm">{exp.description}</td>
       <td>
         <button
           onClick={() => deleteExperience(exp._id)}
@@ -32,6 +33,7 @@ const Experience = ({ experience, deleteExperience }) => {
             <th>Company</th>
             <th className="hide-sm">Title</th>
             <th className="hide-sm">Years</th>
+            <th className="hide-sm">Job Description</th>
             <th />
           </tr>
         </thead>

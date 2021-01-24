@@ -25,6 +25,21 @@ ul {
   list-style: none;
 }
 
+td {
+  max-width: 350px;
+  overflow-x: auto;
+  cursor: grab;
+}
+
+td::-webkit-scrollbar {
+  display: none;
+}
+
+td {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 img {
   width: 100%;
 }
@@ -43,6 +58,10 @@ img {
   opacity: 0.9;
 
   height: 60px;
+
+  @media (max-width: 448px) {
+    height: 100px;
+  }
 
   ul {
     display: flex;

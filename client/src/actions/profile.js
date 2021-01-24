@@ -16,9 +16,11 @@ export const getCurrentProfile = () => async dispatch => {
       },
     });
 
-    const errors = err.response.data;
-    for (let error in errors) {
-      dispatch(setAlert(errors[error], 'danger'));
+    const errors = err.response;
+    if (errors) {
+      for (let error in errors) {
+        dispatch(setAlert(errors[error], 'danger'));
+      }
     }
   }
 };
