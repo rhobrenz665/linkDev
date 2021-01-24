@@ -5,6 +5,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   //LOGIN_FAIL,
+  LOGIN_INIT,
   LOGOUT,
   ACCOUNT_DELETED,
 } from '../actions/types';
@@ -57,6 +58,11 @@ function authReducer(state = initialState, action) {
         isAuthenticated: false,
         loading: false,
         user: null,
+      };
+    case LOGIN_INIT:
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;

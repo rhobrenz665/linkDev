@@ -8,10 +8,13 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  LOGIN_INIT,
 } from './types';
 
 // Load User
 export const loadUser = () => async dispatch => {
+  dispatch({ type: LOGIN_INIT });
+
   try {
     const res = await api.get(`${process.env.REACT_APP_BACKEND_URL}/users/`);
 

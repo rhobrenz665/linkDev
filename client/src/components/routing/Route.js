@@ -9,6 +9,7 @@ import NotFound from '../shared/UIElements/NotFound';
 import PrivateRoute from './PrivateRoute';
 import ProfileForm from '../profile-forms/ProfileForm';
 import AddEducation from '../profile-forms/AddEducation';
+import AddExperience from '../profile-forms/AddExperience';
 
 const Routes = props => {
   return (
@@ -20,6 +21,7 @@ const Routes = props => {
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/create-profile" component={ProfileForm} />
         <PrivateRoute exact path="/add-education" component={AddEducation} />
+        <PrivateRoute exact path="/add-experience" component={AddExperience} />
         <Route component={NotFound} />
       </Switch>
     </section>

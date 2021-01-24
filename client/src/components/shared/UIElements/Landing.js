@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Button from '../FormElements/Button';
 import Modal from './Modal';
 
 import Register from '../../auth/Register';
 
-const Landing = props => {
+const Landing = ({ isAuthenticated, address }) => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   const openModal = () => {
@@ -16,10 +20,11 @@ const Landing = props => {
   };
   return (
     <React.Fragment>
+      {isAuthenticated && <Redirect to="/dashboard" />}
       <Modal
         show={showRegisterModal}
         onCancel={closeModal}
-        header={props.address}
+        header={address}
         contentClass="register-modal-content"
         footerClass="register-modal-content"
         footer={
@@ -42,7 +47,7 @@ const Landing = props => {
             </p>
             <div className="buttons">
               <Button
-                // onClick={openModal}
+                onClick={openModal}
                 className="btn"
                 modifier="primary"
                 to="/register"
@@ -60,4 +65,12 @@ const Landing = props => {
   );
 };
 
-export default Landing;
+Landing.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Landing);

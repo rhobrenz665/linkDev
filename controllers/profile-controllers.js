@@ -157,7 +157,7 @@ const addExperience = async (req, res, next) => {
   };
 
   try {
-    const profile = await Profile.findOne({ user: req.userData.userId });
+    const profile = await Profile.findOne({ user: req.user.id });
     // Add exp array
     profile.experience.unshift(newExp);
 
@@ -246,11 +246,11 @@ const deleteEduc = async (req, res, next) => {
 const deleteUserAndProfile = async (req, res, next) => {
   try {
     // Remove user posts
-    // await Post.deleteMany({ user: req.userData.userId });
+    // await Post.deleteMany({ user: req.user.id });
     // Remove profile
-    await Profile.findOneAndRemove({ user: req.userData.userId });
+    await Profile.findOneAndRemove({ user: req.user.id });
     // Remove user
-    await User.findOneAndRemove({ _id: req.userData.userId });
+    await User.findOneAndRemove({ _id: req.user.id });
 
     res.json({ msg: 'User deleted' });
   } catch (err) {
