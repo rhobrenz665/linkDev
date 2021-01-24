@@ -198,7 +198,7 @@ const addEducation = async (req, res, next) => {
   };
 
   try {
-    const profile = await Profile.findOne({ user: req.userData.userId });
+    const profile = await Profile.findOne({ user: req.user.id });
 
     profile.education.unshift(newEdu);
 
@@ -213,7 +213,7 @@ const addEducation = async (req, res, next) => {
 
 const deleteExp = async (req, res, next) => {
   try {
-    const foundProfile = await Profile.findOne({ user: req.userData.userId });
+    const foundProfile = await Profile.findOne({ user: req.user.id });
 
     foundProfile.experience = foundProfile.experience.filter(
       exp => exp._id.toString() !== req.params.exp_id
@@ -229,7 +229,7 @@ const deleteExp = async (req, res, next) => {
 
 const deleteEduc = async (req, res, next) => {
   try {
-    const foundProfile = await Profile.findOne({ user: req.userData.userId });
+    const foundProfile = await Profile.findOne({ user: req.user.id });
 
     foundProfile.education = foundProfile.education.filter(
       educ => educ._id.toString() !== req.params.educ_id

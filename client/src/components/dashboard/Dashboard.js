@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DashboardActions from './DashBoardActions';
 import { getCurrentProfile } from '../../actions/profile';
+import Education from './Education';
 
 const Dashboard = ({
   getCurrentProfile,
@@ -23,8 +24,9 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
-          {/* <Experience experience={profile.experience} />
-          <Education education={profile.education} /> */}
+          {profile.education.length > 0 && (
+            <Education education={profile.education} />
+          )}
 
           <div className="my-2">
             <button className="btn btn-danger">

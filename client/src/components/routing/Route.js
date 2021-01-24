@@ -6,8 +6,9 @@ import Login from '../../components/auth/Login';
 import Alert from '../shared/UIElements/Alert';
 import Dashboard from '../../components/dashboard/Dashboard';
 import NotFound from '../shared/UIElements/NotFound';
-import ProfileForm from '../profile-form/ProfileForm';
 import PrivateRoute from './PrivateRoute';
+import ProfileForm from '../profile-forms/ProfileForm';
+import AddEducation from '../profile-forms/AddEducation';
 
 const Routes = props => {
   return (
@@ -18,6 +19,7 @@ const Routes = props => {
         <Route exact path="/login" component={Login} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/create-profile" component={ProfileForm} />
+        <PrivateRoute exact path="/add-education" component={AddEducation} />
         <Route component={NotFound} />
       </Switch>
     </section>
