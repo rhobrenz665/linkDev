@@ -7,6 +7,7 @@ import {
   UPDATE_PROFILE,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
+  GET_PROFILES,
 } from './types';
 
 // Get current profile
@@ -22,12 +23,34 @@ export const getCurrentProfile = () => async dispatch => {
       },
     });
 
-    const errors = err.response;
+    const errors = err.response.data;
     if (errors) {
-      for (let error in errors) {
-        dispatch(setAlert(errors[error], 'danger'));
-      }
+      // for (let error in errors) {
+      //   dispatch(setAlert(errors[error], 'danger'));
+      // }
+      console.error(errors.msg);
     }
+  }
+};
+
+// Get all profiles
+export const getProfiles = () => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
+
+  try {
+    const res = await api.get(
+      `${process.env.REACT_APP_BACKEND_URL}/profile/all`
+    );
+
+    dispatch({
+      type: GET_PROFILES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };
 

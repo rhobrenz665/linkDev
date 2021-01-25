@@ -10,7 +10,7 @@ import PrivateRoute from './PrivateRoute';
 import ProfileForm from '../profile-forms/ProfileForm';
 import AddEducation from '../profile-forms/AddEducation';
 import AddExperience from '../profile-forms/AddExperience';
-import Profiles from '../';
+import Profiles from '../profiles/Profiles';
 
 const Routes = props => {
   return (

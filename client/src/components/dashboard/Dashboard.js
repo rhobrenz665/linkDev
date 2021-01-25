@@ -26,10 +26,10 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
-          {profile.experience.length > 0 && (
+          {profile && profile.experience.length > 0 && (
             <Experience experience={profile.experience} />
           )}
-          {profile.education.length > 0 && (
+          {profile && profile.education.length > 0 && (
             <Education education={profile.education} />
           )}
 
