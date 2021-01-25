@@ -10,16 +10,19 @@ import PrivateRoute from './PrivateRoute';
 import ProfileForm from '../profile-forms/ProfileForm';
 import AddEducation from '../profile-forms/AddEducation';
 import AddExperience from '../profile-forms/AddExperience';
+import Profiles from '../';
 
 const Routes = props => {
   return (
     <section className="container">
       <Alert />
       <Switch>
+        <Route exact path="/profiles" component={Profiles} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/create-profile" component={ProfileForm} />
+        <PrivateRoute exact path="/edit-profile" component={ProfileForm} />
         <PrivateRoute exact path="/add-education" component={AddEducation} />
         <PrivateRoute exact path="/add-experience" component={AddExperience} />
         <Route component={NotFound} />
