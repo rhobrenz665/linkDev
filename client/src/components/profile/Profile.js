@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import ProfileTop from './ProfileTop';
+import ProfileHeader from './ProfileHeader';
 import PorfileAbout from './ProfileAbout';
 import ProfileEducation from './ProfileEducation';
 import ProfileExperince from './ProfileExperince';
@@ -10,12 +10,27 @@ import ProfileGithub from './ProfileGithub';
 import Spinner from '../../components/shared/UIElements/Spinner';
 import { getProfileById } from '../../actions/profile';
 
-const Profile = ({ profile, match, getProfileById }) => {
+const Profile = ({ profile: { profile }, match, getProfileById }) => {
   const { id } = match.params;
   useEffect(() => {
     getProfileById(id);
   }, [getProfileById, id]);
-  return <div>Profile</div>;
+  return (
+    <Fragment>
+      {profile === null ? (
+        <Spinner />
+      ) : (
+        <Fragment>
+          <Link to="/profiles" className="btn btn-light">
+            Back To Profiles
+          </Link>
+          <div className="profile-grid my-1">
+            <ProfileHeader profile={profile} />
+          </div>
+        </Fragment>
+      )}
+    </Fragment>
+  );
 };
 
 Profile.propTypes = {
