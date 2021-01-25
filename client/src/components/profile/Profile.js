@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ProfileHeader from './ProfileHeader';
-import PorfileAbout from './ProfileAbout';
+import ProfileAbout from './ProfileAbout';
 import ProfileEducation from './ProfileEducation';
 import ProfileExperince from './ProfileExperince';
 import ProfileGithub from './ProfileGithub';
@@ -26,6 +26,7 @@ const Profile = ({ profile: { profile }, match, getProfileById }) => {
           </Link>
           <div className="profile-grid my-1">
             <ProfileHeader profile={profile} />
+            <ProfileAbout profile={profile} />
           </div>
         </Fragment>
       )}
