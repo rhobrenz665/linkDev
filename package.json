@@ -4,6 +4,7 @@
   "description": "rhobrenz",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "app": "node app.js",
     "server": "nodemon app.js",
     "client": "npm start --prefix client",
