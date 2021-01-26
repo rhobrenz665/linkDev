@@ -24,6 +24,11 @@ router.get('/user/:user_id', profileController.getProfileByUserId);
 // @access  Public
 router.get('/all', profileController.getAllProfile);
 
+// @route    GET api/profile/github/:username
+// @desc     Get user repos from Github
+// @access   Public
+router.get('/github/:username', profileController.getGithubRepos);
+
 // @authentication
 // @desc  Add Authentication
 // @access  Private

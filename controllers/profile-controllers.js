@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 // Load Input Validation
 const validateProfileInput = require('../validation/profile');
 const validateExperienceInput = require('../validation/experience');
@@ -259,6 +261,23 @@ const deleteUserAndProfile = async (req, res, next) => {
   }
 };
 
+const getGithubRepos = async (req, res, next) => {
+  try {
+    const uri = encodeURI(
+      `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
+    );
+    const headers = {
+      'user-agent': 'node.js',
+      Authorization: `token ${process.env.githubToken}`,
+    };
+    const gitHubResponse = await axios.get(uri, { headers });
+    return res.json(gitHubResponse.data);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(404).json({ msg: 'No Github profile found' });
+  }
+};
+
 exports.getUserCurrentProfile = getUserCurrentProfile;
 exports.createUserProfile = createUserProfile;
 exports.getHandler = getHandler;
@@ -269,3 +288,4 @@ exports.addEducation = addEducation;
 exports.deleteExp = deleteExp;
 exports.deleteEduc = deleteEduc;
 exports.deleteUserAndProfile = deleteUserAndProfile;
+exports.getGithubRepos = getGithubRepos;
