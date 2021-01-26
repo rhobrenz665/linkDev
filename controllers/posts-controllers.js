@@ -19,13 +19,13 @@ const createPost = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findById(req.userData.userId).select('-password');
+    const user = await User.findById(req.user.id).select('-password');
 
     const newPost = new Post({
       text: req.body.text,
       name: user.name,
       avatar: user.avatar,
-      user: req.userData.userId,
+      user: req.user.id,
     });
 
     const post = await newPost.save();
@@ -66,7 +66,7 @@ const deletePost = async (req, res, next) => {
     }
 
     // Check user
-    if (post.user.toString() !== req.userData.userId) {
+    if (post.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
@@ -86,12 +86,12 @@ const addLike = async (req, res, next) => {
 
     // Check if the post has already been liked
     // (some) check if at least one element in the array passes the test
-    if (post.likes.some(like => like.user.toString() === req.userData.userId)) {
+    if (post.likes.some(like => like.user.toString() === req.user.id)) {
       return res.status(400).json({ msg: 'Post already liked' });
     }
 
     //Add user id to like array
-    post.likes.unshift({ user: req.userData.userId });
+    post.likes.unshift({ user: req.user.id });
 
     await post.save();
 
@@ -107,15 +107,13 @@ const unLike = async (req, res, next) => {
     const post = await Post.findById(req.params.id);
 
     // Check if the post has not yet been liked
-    if (
-      !post.likes.some(like => like.user.toString() === req.userData.userId)
-    ) {
+    if (!post.likes.some(like => like.user.toString() === req.user.id)) {
       return res.status(400).json({ msg: 'Post has not yet been liked' });
     }
 
     // Remove the like
     post.likes = post.likes.filter(
-      ({ user }) => user.toString() !== req.userData.userId
+      ({ user }) => user.toString() !== req.user.id
     );
 
     await post.save();
@@ -136,14 +134,14 @@ const addComment = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findById(req.userData.userId).select('-password');
+    const user = await User.findById(req.user.id).select('-password');
     const post = await Post.findById(req.params.id);
 
     const newComment = {
       text: req.body.text,
       name: user.name,
       avatar: user.avatar,
-      user: req.userData.userId,
+      user: req.user.id,
     };
 
     post.comments.unshift(newComment);
@@ -170,7 +168,7 @@ const deleteComment = async (req, res, next) => {
       return res.status(404).json({ msg: 'Comment does not exist' });
     }
     // Check user
-    if (comment.user.toString() !== req.userData.userId) {
+    if (comment.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
