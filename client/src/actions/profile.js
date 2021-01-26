@@ -8,6 +8,8 @@ import {
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
   GET_PROFILES,
+  GET_REPOS,
+  NO_REPOS,
 } from './types';
 
 // Get current profile
@@ -222,5 +224,23 @@ export const deleteAccount = () => async dispatch => {
         payload: { msg: err.response.statusText, status: err.response.status },
       });
     }
+  }
+};
+
+// Get Github Repos
+export const getGithubRepos = username => async dispatch => {
+  try {
+    const res = await api.get(
+      `${process.env.REACT_APP_BACKEND_URL}/profile/github/${username}`
+    );
+
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: NO_REPOS,
+    });
   }
 };
